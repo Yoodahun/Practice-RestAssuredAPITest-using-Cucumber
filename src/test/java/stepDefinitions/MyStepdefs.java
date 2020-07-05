@@ -36,7 +36,26 @@ public class MyStepdefs extends Utils {
         req = requestSpecification();
         res = responseSpecification();
 
-        req = given().log().all().spec(req).body(new TestData().serializationAddPlace());
+        req = given().log().all().spec(req).body(
+                new TestData().serializationAddPlace()
+        );
+
+    }
+
+    @Given("Add Place Payload {string}, {string}, {string}")
+    public void addPlacePayload(String name, String language, String address) {
+        req = requestSpecification();
+        res = responseSpecification();
+
+        req = given().log().all().spec(req).body(
+                new TestData().serializationAddPlace(
+                        name,
+                        language,
+                        address
+                )
+        );
+
+
 
     }
 
@@ -45,6 +64,7 @@ public class MyStepdefs extends Utils {
         response = req.when().post("/maps/api/place/add/json")
                 .then().log().all()
                 .assertThat().spec(res).extract().response();
+
     }
 
     @Then("the API call got success with statusCode {int}")
@@ -56,5 +76,6 @@ public class MyStepdefs extends Utils {
     public void inResponseBodyIs(String key, String result) {
         Assert.assertEquals(response.getBody().jsonPath().getString(key), result);
     }
+
 
 }

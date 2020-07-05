@@ -8,15 +8,15 @@ import java.util.List;
 
 public class TestData {
 
-    public AddPlace serializationAddPlace() {
+    public AddPlace addPlace(String name, String language, String address) {
         AddPlace addPlace = new AddPlace();
 
         addPlace.setAccuracy(50);
-        addPlace.setAddress("29, side layout, cohen 09");
-        addPlace.setLanguage("French-IN");
+        addPlace.setAddress(address);
+        addPlace.setLanguage(language);
         addPlace.setPhone_number("(+91) 983 893 3937");
         addPlace.setWebsite("http://google.com");
-        addPlace.setName("Frontline hous");
+        addPlace.setName(name);
 
         List<String> list = new ArrayList<>();
         list.add("shoe par");
@@ -27,5 +27,18 @@ public class TestData {
         return addPlace;
 
 
+    }
+
+    public AddPlace serializationAddPlace() {
+        return addPlace(
+                "Frontline hous",
+                "French-IN",
+                "29, side layout, cohen 09"
+
+        );
+    }
+
+    public AddPlace serializationAddPlace(String name, String language, String address) {
+        return addPlace(name,language, address);
     }
 }
