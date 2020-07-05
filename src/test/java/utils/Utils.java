@@ -13,23 +13,28 @@ import java.util.Properties;
 
 public class Utils {
 
+    private static PrintStream log = null;
+    private static RequestSpecification req = null;
+
     public RequestSpecification requestSpecification()  {
-        PrintStream log = null;
 
-        try {
-            log = new PrintStream(new FileOutputStream("logging.txt"));
+        if(req == null) {
+            try {
+                log = new PrintStream(new FileOutputStream("logging.txt"));
+                req = new RequestSpecBuilder().setBaseUri(getGlobalValue("baseuri"))
+                        .addFilter(RequestLoggingFilter.logRequestTo(log))
+                        .addFilter(ResponseLoggingFilter.logResponseTo(log))
+                        .addQueryParam("key", "qaclick123")
+                        .setContentType(ContentType.JSON)
+                        .build();
 
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
 
-        return new RequestSpecBuilder().setBaseUri(getGlobalValue("baseuri"))
-                .addFilter(RequestLoggingFilter.logRequestTo(log))
-                .addFilter(ResponseLoggingFilter.logResponseTo(log))
-                .addQueryParam("key", "qaclick123")
-                .setContentType(ContentType.JSON)
-                .build();
+
+        return req;
 
     }
 

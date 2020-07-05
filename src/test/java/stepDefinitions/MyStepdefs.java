@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import buildTestData.APIResources;
 import buildTestData.TestData;
 import googleAPI.AddPlace;
 import googleAPI.Location;
@@ -55,17 +56,20 @@ public class MyStepdefs extends Utils {
                 )
         );
 
-
-
     }
 
-    @When("User calls {string} with Post http request")
-    public void userCallsWithPostHttpRequest(String resourceURI) {
-        response = req.when().post("/maps/api/place/add/json")
-                .then().log().all()
+    @When("User calls {string} with {string} http request")
+    public void userCallsWithHttpRequest(String apiName, String uri) {
+
+        if("post".equals(uri)) {
+            response = req.when().post(APIResources.valueOf(apiName).getUri());
+        } else {
+
+        }
+       response = response.then().log().all()
                 .assertThat().spec(res).extract().response();
-
     }
+
 
     @Then("the API call got success with statusCode {int}")
     public void theAPICallGotSuccessWithStatusCode(int statusCode) {
@@ -76,6 +80,7 @@ public class MyStepdefs extends Utils {
     public void inResponseBodyIs(String key, String result) {
         Assert.assertEquals(response.getBody().jsonPath().getString(key), result);
     }
+
 
 
 }
