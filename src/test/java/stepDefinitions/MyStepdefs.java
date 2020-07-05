@@ -59,10 +59,10 @@ public class MyStepdefs extends Utils {
     }
 
     @When("User calls {string} with {string} http request")
-    public void userCallsWithHttpRequest(String apiName, String uri) {
+    public void userCallsWithHttpRequest(String resource, String uri) {
 
         if("post".equals(uri)) {
-            response = req.when().post(APIResources.valueOf(apiName).getUri());
+            response = req.when().post(APIResources.valueOf(resource).getUri());
         } else {
 
         }
