@@ -29,6 +29,10 @@ public class TestData {
 
     }
 
+    public String deletePlacePayload(String placeid) {
+        return "{ \"place_id\": \""+ placeid+ "\"}";
+    }
+
     public AddPlace serializationAddPlace() {
         return addPlace(
                 "Frontline hous",

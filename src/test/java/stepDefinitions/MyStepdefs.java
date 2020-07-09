@@ -29,6 +29,8 @@ public class MyStepdefs extends Utils {
     ResponseSpecification res;
     Response response;
 
+    static String placeid = null;
+
 
 
     @Given("Add Place Payload")
@@ -61,19 +63,21 @@ public class MyStepdefs extends Utils {
     @When("User calls {string} with {string} http request")
     public void userCallsWithHttpRequest(String resource, String uri) {
 
-        if("post".equals(uri)) {
+        if(!"get".equals(uri)) {
             response = req.when().post(APIResources.valueOf(resource).getUri());
         } else {
-
+            response = req.when().get(APIResources.valueOf(resource).getUri());
         }
        response = response.then().log().all()
                 .assertThat().spec(res).extract().response();
+
     }
 
 
     @Then("the API call got success with statusCode {int}")
     public void theAPICallGotSuccessWithStatusCode(int statusCode) {
         Assert.assertEquals(response.getStatusCode(), statusCode);
+
     }
 
     @And("{string} in response body is {string}")
@@ -82,5 +86,30 @@ public class MyStepdefs extends Utils {
     }
 
 
+    @And("verify place_id created maps to {string} using {string}")
+    public void verifyPlace_idCreatedMapsToUsing(String name, String resource) {
+        placeid = response.getBody().jsonPath().getString("place_id");
+        req = given().spec(requestSpecification())
+                     .queryParam("place_id",
+                             placeid
+                     );
 
+        userCallsWithHttpRequest(resource, "get");
+        Assert.assertEquals(
+                response.getBody().jsonPath().getString("name"),
+                name
+        );
+    }
+
+    @Given("DeletePlace Payload")
+    public void deleteplacePayload() {
+        res = responseSpecification();
+
+        req = given().log().all().spec(requestSpecification())
+                .body(new TestData().deletePlacePayload(
+                        placeid
+                ));
+
+
+    }
 }

@@ -7,7 +7,8 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
         features = "src/test/java/features",
         glue = "stepDefinitions",
-        plugin = {"pretty"}
+        plugin = {"pretty"},
+        tags =  "@DeletePlace"
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
 

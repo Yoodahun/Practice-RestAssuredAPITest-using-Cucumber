@@ -2,13 +2,15 @@ package googleAPI;
 
 import java.util.List;
 
-public class AddPlace {
+public class GetPlace {
+
+
 
     private int accuracy;
     private String name;
     private String phone_number;
     private String address;
-    private List<String> types;
+    private List<String > types;
     private String website;
     private String language;
     private Location location;
@@ -76,4 +78,5 @@ public class AddPlace {
     public void setLocation(Location location) {
         this.location = location;
     }
+
 }
