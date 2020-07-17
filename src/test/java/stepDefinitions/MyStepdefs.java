@@ -29,8 +29,7 @@ public class MyStepdefs extends Utils {
     ResponseSpecification res;
     Response response;
 
-    static String placeid = null;
-
+    private static String place_id = null;
 
 
     @Given("Add Place Payload")
@@ -88,10 +87,10 @@ public class MyStepdefs extends Utils {
 
     @And("verify place_id created maps to {string} using {string}")
     public void verifyPlace_idCreatedMapsToUsing(String name, String resource) {
-        placeid = response.getBody().jsonPath().getString("place_id");
+        place_id = response.getBody().jsonPath().getString("place_id");
         req = given().spec(requestSpecification())
                      .queryParam("place_id",
-                             placeid
+                             place_id
                      );
 
         userCallsWithHttpRequest(resource, "get");
@@ -107,9 +106,13 @@ public class MyStepdefs extends Utils {
 
         req = given().log().all().spec(requestSpecification())
                 .body(new TestData().deletePlacePayload(
-                        placeid
+                        place_id
                 ));
 
 
+    }
+
+    public static String getPlaceid() {
+        return place_id;
     }
 }

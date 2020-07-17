@@ -7,8 +7,7 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
         features = "src/test/java/features",
         glue = "stepDefinitions",
-        plugin = {"pretty"},
-        tags =  "@DeletePlace"
+        plugin = {"pretty", "json:target/jsonReports/cucumber-report.json"}
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
 
